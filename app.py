@@ -1,10 +1,20 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=["GET","POST"])
 def home():
-    return render_template("blog.html")
+    if request.method=="GET":
+        return render_template("blog.html")
+    else:
+        button = request.form["submit"]
+        title = request.form["title"]
+        post = request.form["post"]
+        if button=="Post!":
+            f = open("posts.csv",'a')
+            f.write(title+","+post+"\n")
+            f.close()
+            return render_template("blog.html")
 
 @app.route("/<title>")
 def title(title=None):

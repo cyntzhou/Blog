@@ -1,0 +1,10 @@
+{% extends "blog.html" %}
+
+<!-- Inheritance! -->
+{% block head %}
+{{title}}
+{% endblock %}
+
+{% block body %}
+
+{% endblock %}

@@ -14,14 +14,15 @@
     {% block body %}
 
     <h2> Past Posts </h2>
-    <!-- need to list the titles with links attached -->
+    
 
     <h2> New Entry </h2>
     <form class="pure-form" method="POST">
       <fieldset>
 	<input type="text" size="75" name="title" placeholder="Title">
 	<br><br>
-	<textarea name="post" placeholder="Release your inner mind." rows="20" cols="100"></textarea>
+	<textarea name="post" placeholder="Release your inner mind." rows="20" cols="100">
+	</textarea>
 	<br><br>
 	<input type="submit" class="pure-button pure-button-primary" name="submit" value="Post!">
       </fieldset>
