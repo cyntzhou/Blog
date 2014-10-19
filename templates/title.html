@@ -5,6 +5,12 @@
 {{title}}
 {% endblock %}
 {% block body %}
-{{text}}
+{{text}}<br><br>
+Comments:<br>
+ {% for comment in comments %}
+        <br>
+        {{comment[0]}}<br>
+        by {{comment[1]}}
+    {% endfor %}
 <!-- need to make a form for commenting on the post -->
 {% endblock %}

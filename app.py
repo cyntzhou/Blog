@@ -27,14 +27,15 @@ def title(title=None):
     q = '''
     select post
     from posts where title == "'''
-    #print title
     q+=title
     q+='"'
-    print(q)
     post = c.execute(q)
+
+    comments = retComments(title)
+    
     for r in post:
-        print r
-        return render_template("title.html",title=title,text = r[0])
+        #print r
+        return render_template("title.html",title=title,text = r[0], comments = comments)
 
 def retTitles():
     conn = sqlite3.connect("test.db")
@@ -50,7 +51,16 @@ def retTitles():
     for r in result:
         ret.append(r[0])
     return ret
-
+def retComments(title):
+    conn = sqlite3.connect("test.db")
+    c = conn.cursor()
+    q = '''
+    select comment,name
+    from comments where title == "'''
+    q+=title
+    q+='"'
+    comments = c.execute(q)
+    return comments
         
 
 if __name__=="__main__":
