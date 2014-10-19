@@ -13,7 +13,7 @@ for line in csv.DictReader(open("posts.csv")):
     print q
     c.execute(q)
 
-BASE="insert into comments values('%(title)s','%(comment)s')"
+BASE="insert into comments values('%(title)s','%(comment)s','%(name)s')"
 for line in csv.DictReader(open("comments.csv")):
     q = BASE%line
     print q

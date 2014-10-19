@@ -14,6 +14,9 @@
     {% block body %}
 
     <h2> Past Posts </h2>
+    {% for title in titles %}
+        <a href="/{{title}}">{{title}}</a><br>
+    {% endfor %}
     <!-- need to list the titles with links attached -->
 
     <h2> New Entry </h2>
