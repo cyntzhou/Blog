@@ -1,13 +1,13 @@
 {% extends "blog.html" %}
-
 <!-- Inheritance! -->
 {% block head %}
 {{title}}
 {% endblock %}
+
 {% block body %}
 <section class="c">
 <font face="Baskerville" size="5">
-{{text}}</font></section><br><br>
+{{post}}</font></section><br><br>
 <section class = "c">
 <font face="Baskerville" size="5"><b><center>Comments</center></font></b><br>
  {% for comment in comments %}
@@ -19,7 +19,20 @@
     {% endfor %}
 </section>
 <br><center>
-<a class="pure-button pure-button-primary" href="/"><font face
-="Baskerville">Go Back</a>
-<!-- need to make a form for commenting on the post -->
+<a class="pure-button pure-button-primary" href="/"><font face="Baskerville">Go Back</a>
+
+
+<br><br>
+<!-- form for commenting on the post --><section class ="c">
+<font face="Baskerville" size="5"><b><center>Make a new Comment</center></font></b><br>
+<form class="pure-form" method="POST">
+  <fieldset>
+    <input type="text" size="50" name="name" placeholder="Name">
+    <br><br>
+    <textarea name="comment" placeholder="Feel free to add a comment." rows="20" cols="51"></textarea>
+    <br><br>
+    <input type="submit" class="pure-button pure-button-primary" name="submit" value="Comment!">
+  </fieldset>
+</form></section>
+
 {% endblock %}
