@@ -1,16 +1,30 @@
 {% extends "blog.html" %}
-
 <!-- Inheritance! -->
 {% block head %}
 {{title}}
 {% endblock %}
+
 {% block body %}
-{{text}}<br><br>
-Comments:<br>
- {% for comment in comments %}
-        <br>
-        {{comment[0]}}<br>
-        by {{comment[1]}}
-    {% endfor %}
-<!-- need to make a form for commenting on the post -->
+{{post}}<br><br>
+<a href="/">Back to the blog</a><br><br>
+
+<h2>Comments</h2>
+{% for comment in comments %}
+{{comment[0]}}<br>
+by {{comment[1]}}
+<br><br>
+{% endfor %}
+
+<!-- form for commenting on the post -->
+<h2>Make a Comment</h2>
+<form class="pure-form" method="POST">
+  <fieldset>
+    <input type="text" size="75" name="name" placeholder="Name">
+    <br><br>
+    <textarea name="comment" placeholder="Feel free to add a comment." rows="20" cols="100"></textarea>
+    <br><br>
+    <input type="submit" class="pure-button pure-button-primary" name="submit" value="Comment!">
+  </fieldset>
+</form>
+
 {% endblock %}
