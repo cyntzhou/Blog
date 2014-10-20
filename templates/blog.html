@@ -2,34 +2,78 @@
 
 <html>
   <head>
-    <h1>
+   <br><h1><center> <font face="Baskerville" size="10">
       <!-- Inheritance! -->
       {% block head %}
-      Blog
+      Welcome to My Blog 
       {% endblock %}
-    </h1>
+    </font></center></h1>
+<style>
+    .title{
+      color: #343434;
+      font-weight: normal;
+      font-family: 'Ultra', sans-sarif
+      font-size:34px;
+      line-height: 38px;
+      text-transform: uppercase;
+      text-shadow: 0 2px white, 0 3px #777
+    }
+    body {
+        background: #f1f1f1}
+    section {
+
+        border-radius: 10px;
+        padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 500px
+    }
+    .c {
+        background: #D3D3D3;
+        color: black;
+        }
+    .d {
+        background: #EDEDED;
+        color: black;
+        width: 480px
+        }
+    .a   {
+     background: black;
+        color: white;
+        }
+span.tab{
+    padding: 20px; /* Or desired space*/
+}
+span.slight{
+    padding: 3px; /* Or desired space*/
+}
+</style>
   </head>
   
   <body>
     {% block body %}
-
-    <h2> Past Posts </h2>
+<section class="c">
+    <font face="Baskerville" size="5"><b><center>Past Posts</center> </b></font>
+<font face="Baskerville" size="4">
     {% for title in titles %}
-        <a href="/{{title}}">{{title}}</a><br>
+         <span class="tab"></span>-<span class="slight"></span><a href="/{{title}}">{{title}}</a><br>
     {% endfor %}
+</font>
     <!-- need to list the titles with links attached -->
-
-    <h2> New Entry </h2>
-    <form class="pure-form" method="POST">
+</section>
+<br>
+<section class="c">
+     <font face="Baskerville" size="5"><b><center>New Post</center> </b></font>
+    <form class="pure-form" method="POST"><center>
       <fieldset>
-	<input type="text" size="75" name="title" placeholder="Title">
+	<input type="text" size="50" name="title" placeholder="Title">
 	<br><br>
-	<textarea name="post" placeholder="Release your inner mind." rows="20" cols="100"></textarea>
-	<br><br>
-	<input type="submit" class="pure-button pure-button-primary" name="submit" value="Post!">
-      </fieldset>
+	<textarea name="post" placeholder="Release your inner mind." rows="20" cols="51"></textarea>
+	<br><br><center>
+	<input type="submit" class="pure-button pure-button-primary" name="submit" value="Post!"></center>
+      </fieldset></center>
     </form>
-
+</section>
     {% endblock %}
   </body>
 </html>

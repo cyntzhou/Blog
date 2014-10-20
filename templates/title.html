@@ -5,12 +5,21 @@
 {{title}}
 {% endblock %}
 {% block body %}
-{{text}}<br><br>
-Comments:<br>
+<section class="c">
+<font face="Baskerville" size="5">
+{{text}}</font></section><br><br>
+<section class = "c">
+<font face="Baskerville" size="5"><b><center>Comments</center></font></b><br>
  {% for comment in comments %}
         <br>
+<section class = "d">
         {{comment[0]}}<br>
         by {{comment[1]}}
+</section>
     {% endfor %}
+</section>
+<br><center>
+<a class="pure-button pure-button-primary" href="/"><font face
+="Baskerville">Go Back</a>
 <!-- need to make a form for commenting on the post -->
 {% endblock %}
