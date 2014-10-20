@@ -14,9 +14,15 @@ def home():
         title = request.form["title"]
         post = request.form["post"]
         if button=="Post!":
-            f = open("posts.csv",'a')
-            f.write(title+","+post+"\n")
-            f.close()
+            conn = sqlite3.connect('test.db')
+            c = conn.cursor()
+            q = "insert into posts values('" + title + "', '" + post + "');"
+            print q
+            #f = open("posts.csv",'a')
+            #f.write(title+","+post+"\n")
+            #f.close()
+            c.execute(q)
+            conn.commit()
             titles = retTitles();
             return render_template("blog.html", titles = titles)
 
@@ -49,6 +55,7 @@ def retTitles():
     result = c.execute(q)
     ret = []
     for r in result:
+        #print r
         ret.append(r[0])
     return ret
 def retComments(title):
