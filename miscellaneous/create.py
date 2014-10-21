@@ -5,11 +5,11 @@ import sqlite3
 conn = sqlite3.connect("test.db")
 c = conn.cursor()
 
-q = "CREATE TABLE posts(title text UNIQUE, post text)"
+q = "CREATE TABLE posts(title text UNIQUE, post text, time text)"
 
 result = c.execute(q)
 
-q = "CREATE TABLE comments(title text, comment text, name text)"
+q = "CREATE TABLE comments(title text, comment text, name text, time text)"
 
 c.execute(q)
 

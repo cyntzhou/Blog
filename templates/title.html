@@ -7,14 +7,14 @@
 {% block body %}
 <section class="c">
 <font face="Baskerville" size="5">
-{{post}}</font></section><br><br>
+{{post}}<br><font size="2.5">({{time}})</font></section><br><br>
 <section class = "c">
 <font face="Baskerville" size="5"><b><center>Comments</center></font></b><br>
  {% for comment in comments %}
         <br>
 <section class = "d">
         {{comment[0]}}<br>
-        by {{comment[1]}}
+        by {{comment[1]}} <font size="2.5">({{comment[2]}})</font>
 </section>
     {% endfor %}
 </section>

@@ -1,4 +1,5 @@
 import sqlite3
+import time
 from flask import Flask,render_template,request
 
 app = Flask(__name__)
@@ -13,7 +14,8 @@ def home():
             try:
                 conn = sqlite3.connect('test.db')
                 c = conn.cursor()
-                q = "insert into posts values('" + title + "', '" + post + "');"
+                localtime = time.asctime( time.localtime(time.time()) )
+                q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
                 print q
                 #f = open("posts.csv",'a')
                 #f.write(title+","+post+"\n")
@@ -22,8 +24,8 @@ def home():
                 conn.commit()
             except sqlite3.Error, e:
                 print "Error %s:" %e.args[0]
-    titles = retTitles();
-    return render_template("blog.html", titles = titles)
+    titles = retPost();
+    return render_template("blog.html", titles = titles,)
 
 @app.route("/<title>", methods=["GET","POST"])
 def title(title=None):
@@ -33,14 +35,15 @@ def title(title=None):
         comment = request.form["comment"]
         conn = sqlite3.connect("test.db")
         c = conn.cursor()
-        q = "insert into comments values('"+title+"','"+comment+"','"+name+"');"
+        localtime = time.asctime( time.localtime(time.time()) )
+        q = "insert into comments values('"+title+"','"+comment+"','"+name+"', '"+localtime+"');"
         print q
         c.execute(q)
         conn.commit()
     conn = sqlite3.connect("test.db")
     c = conn.cursor()
     q = '''
-    select post
+    select post,time
     from posts where title == "'''
     q+=title
     q+='"'
@@ -48,13 +51,13 @@ def title(title=None):
     comments = retComments(title)
     for r in post:
         #print r
-        return render_template("title.html",title=title, post=r[0], comments = comments)
+        return render_template("title.html",title=title, post=r[0], time = r[1], comments = comments)
         
-def retTitles():
+def retPost():
     conn = sqlite3.connect("test.db")    
     c = conn.cursor()
     q = """
-    select title
+    select title,time
     from posts
     """
     #print(q)
@@ -62,14 +65,14 @@ def retTitles():
     ret = []
     for r in result:
         #print r
-        ret.append(r[0])
+        ret.append(r)
     return ret
 
 def retComments(title):
     conn = sqlite3.connect("test.db")
     c = conn.cursor()
     q = '''
-    select comment,name
+    select comment,name,time
     from comments where title == "'''
     q+=title
     q+='"'

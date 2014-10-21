@@ -54,9 +54,9 @@ span.slight{
     {% block body %}
 <section class="c">
     <font face="Baskerville" size="5"><b><center>Past Posts</center> </b></font>
-<font face="Baskerville" size="4">
-    {% for title in titles %}
-         <span class="tab"></span>-<span class="slight"></span><a href="/{{title}}">{{title}}</a><br>
+
+    {% for title in titles %}<font face="Baskerville" size="4">
+         <span class="tab"></span>-<span class="slight"></span><a href="/{{title}}">{{title[0]}}</a> <font size="2.5">({{title[1]}})</font><br>
     {% endfor %}
 </font>
     <!-- need to list the titles with links attached -->
