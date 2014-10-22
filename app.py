@@ -4,44 +4,47 @@ from flask import Flask,render_template,request
 
 app = Flask(__name__)
 
+def urls():
+    conn = sqlite3.connect("test.db")
+    c = conn.cursor()
+    q = "SELECT title, time FROM posts"
+    results = c.execute(q)
+    urls = [(str("%20".join(t[0].split(' '))), t[1]) for t in results]
+    return urls
+
 @app.route("/", methods=["GET","POST"])
 def home():
+    conn = sqlite3.connect('test.db')
+    c = conn.cursor()
     if request.method=="POST":
         button = request.form["submit"]
         title = request.form["title"]
         post = request.form["post"]
         if button=="Post!":
             try:
-                conn = sqlite3.connect('test.db')
-                c = conn.cursor()
-                localtime = time.asctime( time.localtime(time.time()) )
+                localtime = time.strftime("%d/%m/%Y")
                 q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
-                print q
-                #f = open("posts.csv",'a')
-                #f.write(title+","+post+"\n")
-                #f.close()
                 c.execute(q)
                 conn.commit()
             except sqlite3.Error, e:
                 print "Error %s:" %e.args[0]
-    titles = retPost();
-    return render_template("blog.html", titles = titles,)
+    q2 = "SELECT * FROM posts ORDER BY title DESC LIMIT 1;"
+    newest = [elem for elem in c.execute(q2)]
+    urltuples = urls();
+    return render_template("blog.html", urls = urltuples, new = newest)
 
 @app.route("/<title>", methods=["GET","POST"])
 def title(title=None):
+    conn = sqlite3.connect("test.db")
+    c = conn.cursor()
     if request.method=="POST":
         button = request.form["submit"]
         name = request.form["name"]
         comment = request.form["comment"]
-        conn = sqlite3.connect("test.db")
-        c = conn.cursor()
-        localtime = time.asctime( time.localtime(time.time()) )
+        localtime = time.strftime("%d/%m/%Y")
         q = "insert into comments values('"+title+"','"+comment+"','"+name+"', '"+localtime+"');"
-        print q
         c.execute(q)
         conn.commit()
-    conn = sqlite3.connect("test.db")
-    c = conn.cursor()
     q = '''
     select post,time
     from posts where title == "'''
@@ -49,9 +52,10 @@ def title(title=None):
     q+='"'
     post = c.execute(q)
     comments = retComments(title)
-    for r in post:
-        #print r
-        return render_template("title.html",title=title, post=r[0], time = r[1], comments = comments)
+    q2 = 'SELECT title, post, time FROM posts WHERE title =="' + title + '"'
+    display = [elem for elem in c.execute(q2)]
+    urltuples = urls();
+    return render_template("blog.html", urls = urltuples, new = display)
         
 def retPost():
     conn = sqlite3.connect("test.db")    
@@ -78,7 +82,7 @@ def retComments(title):
     q+='"'
     comments = c.execute(q)
     return comments
-        
+
 if __name__=="__main__":
     app.debug=True
     app.run()

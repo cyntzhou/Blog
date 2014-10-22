@@ -1,79 +1,36 @@
- <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
 
 <html>
   <head>
-   <br><h1><center> <font face="Baskerville" size="10">
-      <!-- Inheritance! -->
-      {% block head %}
-      Welcome to My Blog 
-      {% endblock %}
-    </font></center></h1>
-<style>
-    .title{
-      color: #343434;
-      font-weight: normal;
-      font-family: 'Ultra', sans-sarif
-      font-size:34px;
-      line-height: 38px;
-      text-transform: uppercase;
-      text-shadow: 0 2px white, 0 3px #777
-    }
-    body {
-        background: #f1f1f1}
-    section {
-
-        border-radius: 10px;
-        padding: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 500px
-    }
-    .c {
-        background: #D3D3D3;
-        color: black;
-        }
-    .d {
-        background: #EDEDED;
-        color: black;
-        width: 480px
-        }
-    .a   {
-     background: black;
-        color: white;
-        }
-span.tab{
-    padding: 20px; /* Or desired space*/
-}
-span.slight{
-    padding: 3px; /* Or desired space*/
-}
-</style>
-  </head>
-  
-  <body>
-    {% block body %}
-<section class="c">
-    <font face="Baskerville" size="5"><b><center>Past Posts</center> </b></font>
-
-    {% for title in titles %}<font face="Baskerville" size="4">
-         <span class="tab"></span>-<span class="slight"></span><a href="/{{title[0]}}">{{title[0]}}</a> <font size="2.5">({{title[1]}})</font><br>
-    {% endfor %}
-</font>
-    <!-- need to list the titles with links attached -->
-</section>
-<br>
-<section class="c">
-     <font face="Baskerville" size="5"><b><center>New Post</center> </b></font>
-    <form class="pure-form" method="POST"><center>
-      <fieldset>
-	<input type="text" size="40" name="title" placeholder="Title">
-	<br><br>
-	<textarea name="post" placeholder="Release your inner mind." rows="20" cols="40"></textarea>
-	<br><br><center>
-	<input type="submit" class="pure-button pure-button-primary" name="submit" value="Post!"></center>
-      </fieldset></center>
-    </form>
-</section>
-    {% endblock %}
-  </body>
+    <style>
+      .pure-g > div {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      }
+      .l-box {
+      padding: 1em;
+      }
+    </style>
+    <body>
+      <center><strong><big><big>Blog Title</big></big></strong></center>
+      <div class="pure-g">
+	<div class="pure-u-1-4"><p>
+	    <div class="pure-menu pure-menu-open">
+	      <a class="pure-menu-heading">
+		<center><strong>Posts</strong></center></a>
+	      <ul>
+		{% for url in urls %}
+		<li><a href={{"/"+url[0]}}><strong><small>{{url[0].replace("%20", " ")}}</small></strong><br><small>{{url[1]}}</small></a></li>
+		{% endfor %}
+	      </ul>
+	    </div>
+	  </p>
+	</div>
+	<div class="pure-u-3-4"><p><div class="l-box"><strong><big><big>{{new[0][0]}}</big></big></strong></br>{{new[0][2]}}<br><br>{{new[0][1]}}<br>
+	    </div>
+	  </p>
+	</div>
+      </div>
+    </body>
 </html>
