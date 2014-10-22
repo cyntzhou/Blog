@@ -27,9 +27,30 @@
 	    </div>
 	  </p>
 	</div>
-	<div class="pure-u-3-4"><p><div class="l-box"><strong><big><big>{{new[0][0]}}</big></big></strong></br>{{new[0][2]}}<br><br>{{new[0][1]}}<br>
+	<div class="pure-u-3-4"><p>
+	    <div class="l-box"><strong><big><big>{{new[0][0]}}</big></big></strong></br>{{new[0][2]}}<br><br>{{new[0][1]}}
+	      <br><br>
+	      <font size="5"><b>Comments</font></b><br>
+	      {% for comment in comments %}
+	      <br>
+	      {{comment[0]}}<br> <font size="3">
+		by {{comment[1]}}</font> <font size="2.5">({{comment[2]}})</font>
+	      <br>
+	      {% endfor %}
+	      <br><br>
+	      <!-- form for commenting on the post -->
+	      <b><font size="5">Make a new Comment</font></b><br>
+	      <form class="pure-form" method="POST">
+		<fieldset> 
+		  <input type="text" size="30" name="name" placeholder="Name">
+		  <br><br>
+		  <textarea name="comment" placeholder="Feel free to add a comment." rows="10" cols="50"></textarea>
+		  <br><br>
+		  <input type="submit" class="pure-button pure-button-primary" name="submit" value="Comment!">
+		</fieldset>
+	      </form>
 	    </div>
-	  </p>
+	  </p>	  
 	</div>
       </div>
     </body>

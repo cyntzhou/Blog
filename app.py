@@ -55,7 +55,8 @@ def title(title=None):
     q2 = 'SELECT title, post, time FROM posts WHERE title =="' + title + '"'
     display = [elem for elem in c.execute(q2)]
     urltuples = urls();
-    return render_template("blog.html", urls = urltuples, new = display)
+    comments = retComments(title)
+    return render_template("blog.html", urls = urltuples, new = display, comments = comments)
         
 def retPost():
     conn = sqlite3.connect("test.db")    
