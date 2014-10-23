@@ -4,48 +4,70 @@
   <head>
     <style>
       .pure-g > div {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
       }
+
       .l-box {
-      padding: 1em;
+          padding: 1em;
       }
+
       #hidden{
-      display: none;
-      width: 600px;
-      height: 600px;
-      margin: 0 auto;
-      background-color: white;
-      z-score: 999;
+          display: none;
+          width: 600px;
+          height: 600px;
+          margin: 0 auto;
+          background-color: white;
+          z-score: 999;
+      }
+
+      .button-xlarge {
+          font-size: 125%;
+          background-color: white;
+      }
+
+      #newp {
+          background-color: white;
+      }
+
+      textarea{
+          resize: none;
       }
     </style>
     <script>
-      function toggle_visibility(id) {
+      function toggle_visibility(id, id2) {
       var e = document.getElementById(id);
-      if(e.style.display == 'block')
-      e.style.display = 'none';
-      else
-      e.style.display = 'block';
+      var b = document.getElementById(id2);
+      if(e.style.display == 'block'){
+           e.style.display = 'none';
+           b.style.display = 'block';
+          }
+      else{
+           e.style.display = 'block';
+           b.style.display = 'none';
+          }
       }
     </script>
     <body><br>
-      <center><strong><big><big>Keeping up with the Bonapartes</big></big></strong></center>
+      <center><strong><big><big><a class="button-xlarge pure-button" href="/">&nbsp&nbsp&nbsp&nbsp Keeping Up With the Bonapartes</a></big></big></strong></center>
       <div class="pure-g">
-	<div class="pure-u-1-4"><p>
+	<div class="pure-u-1-5"></div>
+	<div class="pure-u-1-8"><p>
 	    <div class="pure-menu pure-menu-open">
 	      <a class="pure-menu-heading">
 		<center><strong>Posts</strong></center></a>
 	      <ul>
+		<li><center><button class="pure-button" id="newp" onclick="toggle_visibility('hidden', 'mainpost');">New Post</button></center></li>
 		{% for url in urls %}
-		<li><a href={{"/"+url[0]}}><strong><small>{{url[0].replace("%20", " ")}}</small></strong><br><small>{{url[1]}}</small></a></li>
+		<li><a href={{"/"+url[0]}}><strong><small>{{url[0].replace("%20", " ")}}</small></strong><br>
+		    <small>{{url[1]}}</small></a></li>
 		{% endfor %}
-	      <li><button class="pure-button" onclick="toggle_visibility('hidden');">New Post</button></li>
 	      </ul>
 	    </div>
 	  </p>
 	</div>
-	<div class="pure-u-3-4"><p>
+	<div class="pure-u-1-2"><p>
 	    <div id="hidden">
 	      <p>
 		<font face="Baskerville" size="5"><b><center>New Post</center> </b></font>
@@ -60,9 +82,9 @@
 		</form>
 	      </p>
 	    </div>
-	    <div class="l-box"><strong><big><big>{{new[0]}}</big></big></strong></br>{{new[2]}}<br><br>{{new[1]}}
+	    <div id="mainpost" class="l-box"><strong><big><big>{{new[0]}}</big></big></strong></br>{{new[2]}}<br><br>{{new[1]}}
 	      <br><br>
-	      <font size="5"><b>Comments</font></b><br>
+	      <font size="4"><b>---------------<br>Comments</font></b><br>
 	      {% for comment in comments %}
 	      <br>
 	      {{comment[0]}}<br> <font size="2.75">
@@ -71,18 +93,19 @@
 	      {% endfor %}
 	      <br><br>
 	      <!-- form for commenting on the post -->
-	      <b><font size="5">Make a new Comment</font></b><br>
+	      <b><font size="4">Make a new Comment</font></b><br>
 	      <form class="pure-form" method="POST">
 		<fieldset> 
-		  <input type="text" size="30" name="name" placeholder="Name">
+		  <input type="text" size="48" name="name" placeholder="Name">
 		  <br><br>
-		  <textarea name="comment" placeholder="Feel free to add a comment." rows="10" cols="50"></textarea>
+		  <textarea name="comment" placeholder="Feel free to add a comment." rows="10" cols="49"></textarea>
 		  <br><br>
-		  <input type="submit" class="pure-button pure-button-primary" name="submit" value="Comment!">
+		  <input type="submit" class="pure-button" id="comm" name="submit" value="Comment!">
 		</fieldset>
 	      </form>
 	  </p>	  
+	  </div>
+	  <div class="pure-u-1-4"></div>
 	</div>
-      </div>
     </body>
 </html>

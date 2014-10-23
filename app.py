@@ -18,12 +18,10 @@ def home():
             name = request.form["name"]
             comment = request.form["comment"]
             c.execute("insert into comments values(?, ?, ?,?)", (str(newest[0]), comment, name,localtime))
-            #c.execute(q)
             conn.commit()
         if button == "Post!":
             title = request.form["title"]
             post = request.form["post"]
-            #q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
             c.execute("insert into posts values(?,?,?)",(title,post,localtime))
             conn.commit()
             return redirect("/"+title)
@@ -45,7 +43,6 @@ def title(title=None):
         if button == "Post!":
             title = request.form["title"]
             post = request.form["post"]
-            #q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
             c.execute("insert into posts values(?,?,?)",(title,post,localtime))
             conn.commit()
             return redirect("/"+title)
@@ -71,11 +68,9 @@ def retPost():
     select title,time
     from posts
     """
-    #print(q)
     result = c.execute(q)
     ret = []
     for r in result:
-        #print r
         ret.append(r)
     return ret
 
