@@ -31,7 +31,8 @@ def home():
     q2 = "SELECT * FROM posts ORDER BY title DESC LIMIT 1;"
     newest = [elem for elem in c.execute(q2)]
     urltuples = urls();
-    return render_template("blog.html", urls = urltuples, new = newest)
+    comments = retComments(newest[0][0])
+    return render_template("blog.html", urls = urltuples, new = newest, comments=comments)
 
 @app.route("/<title>", methods=["GET","POST"])
 def title(title=None):
