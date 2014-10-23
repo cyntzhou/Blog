@@ -16,11 +16,14 @@ def urls():
 def home():
     conn = sqlite3.connect('test.db')
     c = conn.cursor()
+    q2 = "SELECT * FROM posts ORDER BY title DESC LIMIT 1;"
+    newest = [elem for elem in c.execute(q2)][0]
+    urltuples = urls();
     if request.method=="POST":
         button = request.form["submit"]
-        title = request.form["title"]
-        post = request.form["post"]
         if button=="Post!":
+            title = request.form["title"]
+            post = request.form["post"]
             try:
                 localtime = time.strftime("%m/%d/%Y")
                 q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
@@ -28,9 +31,14 @@ def home():
                 conn.commit()
             except sqlite3.Error, e:
                 print "Error %s:" %e.args[0]
-    q2 = "SELECT * FROM posts ORDER BY title DESC LIMIT 1;"
-    newest = [elem for elem in c.execute(q2)][0]
-    urltuples = urls();
+        if button=="Comment!":
+            name = request.form["name"]
+            comment = request.form["comment"]
+            localtime = time.strftime("%m/%d/%Y")
+            q = "insert into comments values('"+str(newest[0])+"','"+comment+"','"+name+"', '"+localtime+"');"
+            c.execute(q)
+            conn.commit()
+            
     comments = retComments(str(newest[0]))
     return render_template("blog.html", urls = urltuples, new = newest, comments=comments)
 
