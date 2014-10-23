@@ -1,16 +1,8 @@
 import sqlite3
 import time
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request, redirect, url_for
 
 app = Flask(__name__)
-
-def urls():
-    conn = sqlite3.connect("test.db")
-    c = conn.cursor()
-    q = "SELECT title, time FROM posts"
-    results = c.execute(q)
-    urls = [(str("%20".join(t[0].split(' '))), t[1]) for t in results]
-    return urls
 
 @app.route("/", methods=["GET","POST"])
 def home():
@@ -31,6 +23,8 @@ def home():
                 conn.commit()
             except sqlite3.Error, e:
                 print "Error %s:" %e.args[0]
+            #Redirect user to the page of the new post after creating a new post
+            return redirect("/"+str(title))
         if button=="Comment!":
             name = request.form["name"]
             comment = request.form["comment"]
@@ -38,7 +32,6 @@ def home():
             q = "insert into comments values('"+str(newest[0])+"','"+comment+"','"+name+"', '"+localtime+"');"
             c.execute(q)
             conn.commit()
-            
     comments = retComments(str(newest[0]))
     return render_template("blog.html", urls = urltuples, new = newest, comments=comments)
 
@@ -66,7 +59,15 @@ def title(title=None):
     urltuples = urls();
     comments = retComments(title)
     return render_template("blog.html", urls = urltuples, new = display, comments = comments)
-        
+       
+def urls():
+    conn = sqlite3.connect("test.db")
+    c = conn.cursor()
+    q = "SELECT title, time FROM posts"
+    results = c.execute(q)
+    urls = [(str("%20".join(t[0].split(' '))), t[1]) for t in results]
+    return urls
+ 
 def retPost():
     conn = sqlite3.connect("test.db")    
     c = conn.cursor()
