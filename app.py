@@ -13,25 +13,20 @@ def home():
     urltuples = urls();
     if request.method=="POST":
         button = request.form["submit"]
-        if button=="Post!":
-            title = request.form["title"]
-            post = request.form["post"]
-            try:
-                localtime = time.strftime("%m/%d/%Y")
-                q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
-                c.execute(q)
-                conn.commit()
-            except sqlite3.Error, e:
-                print "Error %s:" %e.args[0]
-            #Redirect user to the page of the new post after creating a new post
-            return redirect("/"+str(title))
-        if button=="Comment!":
+        localtime = time.strftime("%m/%d/%Y")
+        if button == "Comment!":
             name = request.form["name"]
             comment = request.form["comment"]
-            localtime = time.strftime("%m/%d/%Y")
-            q = "insert into comments values('"+str(newest[0])+"','"+comment+"','"+name+"', '"+localtime+"');"
+            q = "insert into comments values('"+title+"','"+comment+"','"+name+"', '"+localtime+"');"
             c.execute(q)
             conn.commit()
+        if button == "Post!":
+            title = request.form["title"]
+            post = request.form["post"]
+            q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
+            c.execute(q)
+            conn.commit()
+            return redirect("/"+title)
     comments = retComments(str(newest[0]))
     return render_template("blog.html", urls = urltuples, new = newest, comments=comments)
 
@@ -41,21 +36,23 @@ def title(title=None):
     c = conn.cursor()
     if request.method=="POST":
         button = request.form["submit"]
-        name = request.form["name"]
-        comment = request.form["comment"]
         localtime = time.strftime("%m/%d/%Y")
-        q = "insert into comments values('"+title+"','"+comment+"','"+name+"', '"+localtime+"');"
-        c.execute(q)
-        conn.commit()
-    q = '''
-    select post,time
-    from posts where title == "'''
-    q+=title
-    q+='"'
-    post = c.execute(q)
+        if button == "Comment!":
+            name = request.form["name"]
+            comment = request.form["comment"]
+            q = "insert into comments values('"+title+"','"+comment+"','"+name+"', '"+localtime+"');"
+            c.execute(q)
+            conn.commit()
+        if button == "Post!":
+            title = request.form["title"]
+            post = request.form["post"]
+            q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
+            c.execute(q)
+            conn.commit()
+            return redirect("/"+title)
     comments = retComments(title)
-    q2 = 'SELECT title, post, time FROM posts WHERE title =="' + title + '"'
-    display = [elem for elem in c.execute(q2)][0]
+    q = 'SELECT title, post, time FROM posts WHERE title =="' + title + '"'
+    display = [elem for elem in c.execute(q)][0]
     urltuples = urls();
     comments = retComments(title)
     return render_template("blog.html", urls = urltuples, new = display, comments = comments)
