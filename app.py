@@ -22,16 +22,16 @@ def home():
         post = request.form["post"]
         if button=="Post!":
             try:
-                localtime = time.strftime("%d/%m/%Y")
+                localtime = time.strftime("%m/%d/%Y")
                 q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
                 c.execute(q)
                 conn.commit()
             except sqlite3.Error, e:
                 print "Error %s:" %e.args[0]
     q2 = "SELECT * FROM posts ORDER BY title DESC LIMIT 1;"
-    newest = [elem for elem in c.execute(q2)]
+    newest = [elem for elem in c.execute(q2)][0]
     urltuples = urls();
-    comments = retComments(newest[0][0])
+    comments = retComments(str(newest[0]))
     return render_template("blog.html", urls = urltuples, new = newest, comments=comments)
 
 @app.route("/<title>", methods=["GET","POST"])
@@ -42,7 +42,7 @@ def title(title=None):
         button = request.form["submit"]
         name = request.form["name"]
         comment = request.form["comment"]
-        localtime = time.strftime("%d/%m/%Y")
+        localtime = time.strftime("%m/%d/%Y")
         q = "insert into comments values('"+title+"','"+comment+"','"+name+"', '"+localtime+"');"
         c.execute(q)
         conn.commit()
@@ -54,7 +54,7 @@ def title(title=None):
     post = c.execute(q)
     comments = retComments(title)
     q2 = 'SELECT title, post, time FROM posts WHERE title =="' + title + '"'
-    display = [elem for elem in c.execute(q2)]
+    display = [elem for elem in c.execute(q2)][0]
     urltuples = urls();
     comments = retComments(title)
     return render_template("blog.html", urls = urltuples, new = display, comments = comments)
