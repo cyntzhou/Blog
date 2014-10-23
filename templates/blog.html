@@ -11,7 +11,24 @@
       .l-box {
       padding: 1em;
       }
+      #hidden{
+      display: block;
+      width: 600px;
+      height: 600px;
+      margin: 0 auto;
+      background-color: white;
+      z-score: 999;
+      }
     </style>
+    <script>
+      function toggle_visibility(id) {
+      var e = document.getElementById(id);
+      if(e.style.display == 'block')
+      e.style.display = 'none';
+      else
+      e.style.display = 'block';
+      }
+    </script>
     <body>
       <center><strong><big><big>Blog Title</big></big></strong></center>
       <div class="pure-g">
@@ -23,11 +40,26 @@
 		{% for url in urls %}
 		<li><a href={{"/"+url[0]}}><strong><small>{{url[0].replace("%20", " ")}}</small></strong><br><small>{{url[1]}}</small></a></li>
 		{% endfor %}
+	      <li><button class="pure-button" onclick="toggle_visibility('hidden');">New Post</button></li>
 	      </ul>
 	    </div>
 	  </p>
 	</div>
 	<div class="pure-u-3-4"><p>
+	    <div id="hidden">
+	      <p>
+		<font face="Baskerville" size="5"><b><center>New Post</center> </b></font>
+		<form class="pure-form" method="POST"><center>
+		    <fieldset>
+		      <input type="text" size="40" name="title" placeholder="Title">
+		      <br><br>
+		      <textarea name="post" placeholder="Main text" rows="20" cols="40"></textarea>
+		      <br><br><center>
+			<input type="submit" class="pure-button pure-button-primary" name="submit" value="Post!"></center>
+		  </fieldset></center>
+		</form>
+	      </p>
+	    </div>
 	    <div class="l-box"><strong><big><big>{{new[0][0]}}</big></big></strong></br>{{new[0][2]}}<br><br>{{new[0][1]}}
 	      <br><br>
 	      <font size="5"><b>Comments</font></b><br>
@@ -49,7 +81,6 @@
 		  <input type="submit" class="pure-button pure-button-primary" name="submit" value="Comment!">
 		</fieldset>
 	      </form>
-	    </div>
 	  </p>	  
 	</div>
       </div>
