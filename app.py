@@ -17,14 +17,14 @@ def home():
         if button == "Comment!":
             name = request.form["name"]
             comment = request.form["comment"]
-            q = "insert into comments values('"+title+"','"+comment+"','"+name+"', '"+localtime+"');"
-            c.execute(q)
+            c.execute("insert into comments values(?, ?, ?,?)", (str(newest[0]), comment, name,localtime))
+            #c.execute(q)
             conn.commit()
         if button == "Post!":
             title = request.form["title"]
             post = request.form["post"]
-            q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
-            c.execute(q)
+            #q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
+            c.execute("insert into posts values(?,?,?)",(title,post,localtime))
             conn.commit()
             return redirect("/"+title)
     comments = retComments(str(newest[0]))
@@ -40,14 +40,13 @@ def title(title=None):
         if button == "Comment!":
             name = request.form["name"]
             comment = request.form["comment"]
-            q = "insert into comments values('"+title+"','"+comment+"','"+name+"', '"+localtime+"');"
-            c.execute(q)
+            c.execute("insert into comments values(?, ?, ?,?)", (title, comment, name,localtime))
             conn.commit()
         if button == "Post!":
             title = request.form["title"]
             post = request.form["post"]
-            q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
-            c.execute(q)
+            #q = "insert into posts values('" + title + "', '" + post + "', '"+localtime+"');"
+            c.execute("insert into posts values(?,?,?)",(title,post,localtime))
             conn.commit()
             return redirect("/"+title)
     comments = retComments(title)
